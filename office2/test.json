@@ -1,0 +1,43 @@
+{
+	"type": "office",
+	"width": 5,
+	"height": 6,
+	"cells":
+	[
+		{
+			"type": "wall",
+			"x": 0,
+			"y": 0
+		},
+		{
+			"type": "room",
+			"x": 1,
+			"y": 0,
+			"objects":
+			[
+				{
+					"type": "salary",
+					"value": 1000
+				},
+				{
+					"type": "manager",
+					"money": 3500
+				},
+				{
+					"type": "worker"
+				}
+			]
+		},
+		{
+			"type": "room",
+			"x": 1,
+			"y": 1,
+			"objects":
+			[
+				{
+					"type": "work"
+				}
+			]
+		}
+	]
+}
