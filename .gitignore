@@ -1,2 +1,4 @@
 .vs
 office/obj
+office/bin
+/office/test.json
