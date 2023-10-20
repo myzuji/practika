@@ -7,41 +7,51 @@ namespace office
     public class Simulation
     {
 
-        public class Rootobject
-        {
-            public string type { get; set; }
-            public int width { get; set; }
-            public int height { get; set; }
-            public Cell[] cells { get; set; }
-        }
-
-        public class Cell
-        {
-            public string type { get; set; }
-            public int x { get; set; }
-            public int y { get; set; }
-            public Object[] objects { get; set; }
-        }
-
-        public class Object
-        {
-            public string type { get; set; }
-            public int value { get; set; }
-            public int money { get; set; }
-        }
-
         public Simulation()
         {
+        Office office;
         }
 
         public bool loadFromJson(string filePath)
         {
-            filePath = "test.json";
             string jsonString = File.ReadAllText(filePath);
-            Simulation simulation = JsonSerializer.Deserialize<Simulation>(jsonString)!;
-            
+            var jsonDoc = JsonDocument.Parse(jsonString);
+
+            var officeElement = jsonDoc.RootElement;
+
+            if (officeElement.GetProperty("type").ToString() != "office" && officeElement.GetProperty("width").GetUInt32() <= 0 && officeElement.GetProperty("height").GetUInt32() <= 0)
+            {
+                return false;
+            }
+
+            if (officeElement.GetProperty("cells").GetArrayLength() <= 0)
+            {
+                return false;
+            }
+
+            office = new Office();
+
+            var cellsElement = officeElement.GetProperty("cells");
+
+            foreach (var cellElement in cellsElement.EnumerateArray())
+            {
+                switch (cellElement.GetProperty("type").ToString())
+                {
+                    case "wall":
+                        {
+                            if (cellElement.GetProperty("x").GetInt32() >= 0 && cellElement.GetProperty("y").GetInt32() >= 0)
+                            {
+                                var wall = new Wall();
+                            }
+                            break;
+                        }
+                }
+            }
+
             return true;
         }
-        
     }
 }
+
+
+ 
