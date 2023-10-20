@@ -51,14 +51,14 @@ namespace office
                         }
                     case "cabinet":
                         {
-                            var objectsElement = cellElement.GetProperty("object");
+                            var objectsElement = cellElement.GetProperty("objects");
                             foreach (var objectElement in objectsElement.EnumerateArray())
                             {
                                 switch (objectElement.GetProperty("type").ToString())
                                 {
                                     case "salary":
                                         {
-                                            if (objectElement.GetProperty("value").GetUInt32() > 100 && objectElement.GetProperty("value").GetUInt32() > 1000)
+                                            if (objectElement.GetProperty("value").GetUInt32() > 0)
                                             {
                                                 var salary = new Salary();
                                             }
@@ -66,7 +66,7 @@ namespace office
                                         }
                                     case "manager":
                                         {
-                                            if (objectElement.GetProperty("money").GetUInt32() == 3500)
+                                            if (objectElement.GetProperty("money").GetUInt32() >= 0)
                                             {
                                                 var manager = new Manager();
                                             }
