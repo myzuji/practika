@@ -82,6 +82,15 @@ namespace office
 
                                             break;
                                         }
+                                    case "work":
+                                        {
+                                            if (objectElement.GetProperty("type").ToString() == "work")
+                                            {
+                                                var work = new Work();
+                                            }
+
+                                            break;
+                                        }
                                 }
                             }
                             if (checkXY(cellElement))
