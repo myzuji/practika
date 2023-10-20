@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
 namespace office
@@ -7,9 +8,9 @@ namespace office
     public class Simulation
     {
 
+        Office office;
         public Simulation()
         {
-        Office office;
         }
 
         public bool loadFromJson(string filePath)
@@ -31,6 +32,7 @@ namespace office
 
             office = new Office();
 
+
             var cellsElement = officeElement.GetProperty("cells");
 
             foreach (var cellElement in cellsElement.EnumerateArray())
@@ -39,19 +41,74 @@ namespace office
                 {
                     case "wall":
                         {
-                            if (cellElement.GetProperty("x").GetInt32() >= 0 && cellElement.GetProperty("y").GetInt32() >= 0)
+                            if (checkXY(cellElement))
                             {
+
                                 var wall = new Wall();
                             }
                             break;
-                        }
-                }
-            }
 
-            return true;
+                        }
+                    case "cabinet":
+                        {
+                            var objectsElement = cellElement.GetProperty("object");
+                            foreach (var objectElement in objectsElement.EnumerateArray())
+                            {
+                                switch (objectElement.GetProperty("type").ToString())
+                                {
+                                    case "salary":
+                                        {
+                                            if (objectElement.GetProperty("value").GetUInt32() > 100 && objectElement.GetProperty("value").GetUInt32() > 1000)
+                                            {
+                                                var salary = new Salary();
+                                            }
+                                            break;
+                                        }
+                                    case "manager":
+                                        {
+                                            if (objectElement.GetProperty("money").GetUInt32() == 3500)
+                                            {
+                                                var manager = new Manager();
+                                            }
+
+                                            break;
+                                        }
+                                    case "worker":
+                                        {
+                                            if (objectElement.GetProperty("type").ToString() == "worker")
+                                            {
+                                                var worker = new Worker();
+                                            }
+
+                                            break;
+                                        }
+                                }
+                            }
+                            if (checkXY(cellElement))
+                            {
+
+                                var cabinet = new Cabinet();
+
+                            }
+                            break;
+                        }
+
+                }
+
+            }
+        return true;
+
         }
-    }
-}
+            private bool checkXY(JsonElement cellElement)
+            {
+                if (cellElement.GetProperty("x").GetInt32() >= 0 && cellElement.GetProperty("y").GetInt32() >= 0)
+                {
+                    return true;
+                }
+                return false;
+
+            }
+    } }
 
 
  
