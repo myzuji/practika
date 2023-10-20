@@ -91,6 +91,15 @@ namespace office
 
                                             break;
                                         }
+                                    case "truancy":
+                                        {
+                                            if (objectElement.GetProperty("type").ToString() == "truancy")
+                                            {
+                                                var truancy = new Truancy();
+                                            }
+
+                                            break;
+                                        }
                                 }
                             }
                             if (checkXY(cellElement))
