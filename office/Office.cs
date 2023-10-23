@@ -23,14 +23,15 @@ public class Office
         
     }
 
-    public void SetCabinet(int x, int y,  Cabinet cabinet) 
-    {
-        officeArray[x, y] = cabinet;
-    }
+    //public void SetCabinet(int x, int y, Cabinet cabinet)
+    //{
+    //    officeArray[x, y] = cabinet;
 
-    public void SetPerson(int x, int y, Person person)
-    {
-        officeArray[x, y] = person;
-    }
+    //}
+
+    //public void SetPerson(int x, int y, Person person)
+    //{
+    //    officeArray[x, y] = person;
+    //}
 
 }
