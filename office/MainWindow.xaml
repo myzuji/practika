@@ -15,7 +15,7 @@
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="485,0,0,411" VerticalAlignment="Bottom" Click="Button_Click"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="485,0,0,366" VerticalAlignment="Bottom" Click="Button_Click" Height="65" Width="118"/>
         <TextBlock x:Name="OfficeModel1" HorizontalAlignment="Left" Margin="22,58,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="134" Width="432"/>
 
     </Grid>

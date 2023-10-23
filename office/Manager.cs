@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Manager
+public class Manager : Person
 {
 	public Manager()
 	{

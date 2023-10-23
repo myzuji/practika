@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Truancy
+public class Truancy : Cabinet
 {
 	public Truancy()
 	{

@@ -20,7 +20,7 @@ namespace office
 
             var officeElement = jsonDoc.RootElement;
 
-            if (officeElement.GetProperty("type").ToString() != "office" && officeElement.GetProperty("width").GetUInt32() <= 0 && officeElement.GetProperty("height").GetUInt32() <= 0)
+            if (officeElement.GetProperty("type").ToString() != "office" || officeElement.GetProperty("width").GetInt32() <= 0 || officeElement.GetProperty("height").GetInt32() <= 0)
             {
                 return false;
             }
@@ -30,7 +30,7 @@ namespace office
                 return false;
             }
 
-            office = new Office();
+            office = new Office(officeElement.GetProperty("width").GetInt32(), officeElement.GetProperty("height").GetInt32());
 
 
             var cellsElement = officeElement.GetProperty("cells");
@@ -44,13 +44,23 @@ namespace office
                             if (checkXY(cellElement))
                             {
 
-                                var wall = new Wall();
+                                office.SetCell(cellElement.GetProperty("x").GetInt32(), cellElement.GetProperty("y").GetInt32(), new Wall());
+
                             }
                             break;
 
                         }
                     case "cabinet":
                         {
+                            if (checkXY(cellElement))
+                            {
+
+                                office.SetCell(cellElement.GetProperty("x").GetInt32(), cellElement.GetProperty("y").GetInt32(), new Cabinet());
+
+
+                            }
+
+
                             var objectsElement = cellElement.GetProperty("objects");
                             foreach (var objectElement in objectsElement.EnumerateArray())
                             {
@@ -60,7 +70,12 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("value").GetUInt32() > 0)
                                             {
-                                                var salary = new Salary();
+                                                if (checkXY(cellElement))
+                                                {
+
+                                                    office.SetCabinet(cellElement.GetProperty("x").GetInt32(), cellElement.GetProperty("y").GetInt32(), new Salary());
+
+                                                }
                                             }
                                             break;
                                         }
@@ -68,7 +83,7 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("money").GetUInt32() >= 0)
                                             {
-                                                var manager = new Manager();
+                                                office.SetPerson(cellElement.GetProperty("x").GetInt32(), cellElement.GetProperty("y").GetInt32(), new Manager());
                                             }
 
                                             break;
@@ -77,7 +92,7 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("type").ToString() == "worker")
                                             {
-                                                var worker = new Worker();
+                                                office.SetPerson(cellElement.GetProperty("x").GetInt32(), cellElement.GetProperty("y").GetInt32(), new Worker());
                                             }
 
                                             break;
@@ -86,7 +101,7 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("type").ToString() == "work")
                                             {
-                                                var work = new Work();
+                                                office.SetCabinet(cellElement.GetProperty("x").GetInt32(), cellElement.GetProperty("y").GetInt32(), new Work());
                                             }
 
                                             break;
@@ -95,7 +110,7 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("type").ToString() == "truancy")
                                             {
-                                                var truancy = new Truancy();
+                                                office.SetCabinet(cellElement.GetProperty("x").GetInt32(), cellElement.GetProperty("y").GetInt32(), new Truancy());
                                             }
 
                                             break;
@@ -112,21 +127,20 @@ namespace office
                         }
 
                 }
-
             }
-        return true;
+            return true;
 
         }
-            private bool checkXY(JsonElement cellElement)
+        private bool checkXY(JsonElement cellElement)
+        {
+            if (cellElement.GetProperty("x").GetInt32() >= 0 && cellElement.GetProperty("y").GetInt32() >= 0)
             {
-                if (cellElement.GetProperty("x").GetInt32() >= 0 && cellElement.GetProperty("y").GetInt32() >= 0)
-                {
-                    return true;
-                }
-                return false;
-
+                return true;
             }
-    } }
+            return false;
+
+        }
+    }
+}
 
 
- 

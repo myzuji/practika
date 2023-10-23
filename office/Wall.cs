@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Wall
+public class Wall : Cell
 {
 	public Wall()
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Cabinet
+public class Cabinet : Cell
 {
 	public Cabinet()
 	{
