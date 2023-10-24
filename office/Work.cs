@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Work : Cabinet
+public class Work : Bonus
 {
 	public Work()
 	{

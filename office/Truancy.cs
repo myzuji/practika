@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Truancy : Cabinet
+public class Truancy : Bonus
 {
 	public Truancy()
 	{

@@ -6,45 +6,29 @@ using System.Windows.Media.Media3D;
 
 public class Cell
 {
-    Bonus[] bonusArray = null;
+    Bonus bonusVariable = null;
     Person[] personArray = null;
 
-    // List<string> person = new List<string>();
+    List<Person> personList = new List<Person>();
 
-    public Cell(int attribute, string post)
+    public Cell()
     {
-
-
-        bonusArray = new Bonus[attribute];
-
-        //for (int i = 0; i < x; i++)
-        //{
-        for (int i = 0; i < attribute; i++)
-        {
-            bonusArray[attribute] = new Bonus();
-
-        }
-
-        int postPerson = Convert.ToInt32(post);
-        personArray = new Person[postPerson];
-        for (int i = 0; i < postPerson; i++)
-        {
-            personArray[postPerson] = new Person();
-
-        }
-
-        //}
-
     }
-    public void setBonus(int value, Bonus bonus)
+    public void setBonus(Bonus bonus)
     {
-        bonusArray[value] = bonus;
+        bonusVariable = bonus;
 
     }
 
-    public void setPerson(int post, Person person)
+    public void addPerson(Person person)
     {
-        personArray[post] = person;
+        personList.Add(person);
+
+    }
+
+    public void removePerson(Person person)
+    {
+        personList.Remove(person);
 
     }
 }

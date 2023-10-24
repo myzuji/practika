@@ -38,42 +38,34 @@ namespace office
 
             foreach (var cellElement in cellsElement.EnumerateArray())
             {
-                if(!checkXY(cellElement))
+                if (!checkXY(cellElement))
                 {
                     continue;
-
-                   
 
                 }
                 int propetyX = cellElement.GetProperty("x").GetInt32();
                 int propetyY = cellElement.GetProperty("y").GetInt32();
                 switch (cellElement.GetProperty("type").ToString())
                 {
-                     
+
                     case "wall":
                         {
-                            if (checkXY(cellElement))
                             {
-
                                 office.SetCell(propetyX, propetyY, new Wall());
-
                             }
                             break;
 
                         }
                     case "cabinet":
                         {
-                                var cabinetElement = new Cabinet();
-                            if (checkXY(cellElement))
+                            var cabinetElement = new Cabinet();
                             {
                                 office.SetCell(propetyX, propetyY, cabinetElement);
 
-
                             }
 
-                         
                             var objectsElement = cellElement.GetProperty("objects");
-                           
+
                             foreach (var objectElement in objectsElement.EnumerateArray())
                             {
                                 switch (objectElement.GetProperty("type").ToString())
@@ -84,9 +76,9 @@ namespace office
                                             {
 
 
-                                                cell.setBonus(objectsElement.GetProperty("value").GetInt32(), new Salary());
+                                                cabinetElement.setBonus(new Salary());
 
-                                                
+
                                             }
                                             break;
                                         }
@@ -94,7 +86,7 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("money").GetUInt32() >= 0)
                                             {
-                                                cell.setPerson(objectsElement.GetProperty("post"), new Manager());
+                                                cabinetElement.addPerson(new Manager());
                                             }
 
                                             break;
@@ -103,7 +95,7 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("type").ToString() == "worker")
                                             {
-                                                cell.setPerson(objectsElement.GetProperty("post"), new Worker());
+                                                cabinetElement.addPerson(new Worker());
                                             }
 
                                             break;
@@ -112,7 +104,7 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("type").ToString() == "work")
                                             {
-                                                cell.setBonus(objectsElement.GetProperty("value").GetInt32(), new Work());
+                                                cabinetElement.setBonus(new Work());
                                             }
 
                                             break;
@@ -121,7 +113,7 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("type").ToString() == "truancy")
                                             {
-                                                cell.setBonus(objectsElement.GetProperty("value").GetInt32(), new Truancy());
+                                                cabinetElement.setBonus(new Truancy());
                                             }
 
                                             break;

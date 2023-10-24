@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class Salary : Cabinet
+public class Salary : Bonus
 {
 	public Salary()
 	{
