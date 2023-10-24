@@ -36,7 +36,6 @@ public class Cell
         //}
 
 
-
     }
     public void setBonus(int value, Bonus bonus)
     {
