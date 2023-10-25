@@ -11,7 +11,7 @@ namespace office
 
         Office office;
         List<Person> personsList = new List<Person>();
-        Person person;
+        
 
         public Simulation()
         {
@@ -75,10 +75,10 @@ namespace office
                                 {
                                     case "salary":
                                         {
-                                            if (objectElement.GetProperty("value").GetUInt32() > 0)
+                                            if (objectElement.GetProperty("value").GetInt32() > 0)
                                             { 
                                                 var salary = new Salary();
-                                                salary.value = 1000;
+                                                salary.value = objectElement.GetProperty("value").GetInt32();
 
                                                 cabinetElement.setBonus(salary);
                                             }
@@ -86,46 +86,42 @@ namespace office
                                         }
                                     case "manager":
                                         {
-                                            if (objectElement.GetProperty("money").GetUInt32() >= 0)
+                                            if (objectElement.GetProperty("money").GetInt32() >= 0)
                                             {
-                                                personsList.Add(person);
                                                 var manager  = new Manager();
-                                                manager.sumMoney = 3500;
+                                                manager.sumMoney = objectElement.GetProperty("money").GetInt32();
                                                 cabinetElement.addPerson(manager);
+                                                personsList.Add(manager);
                                             }
 
                                             break;
                                         }
                                     case "worker":
                                         {
-                                            if (objectElement.GetProperty("qualification").GetUInt32() >= 0 && objectElement.GetProperty("amountWork").GetUInt32() >= 0 &&
-                                                objectElement.GetProperty("amountTruancy").GetUInt32() >= 0)
+                                            if (objectElement.GetProperty("qualification").GetInt32() >= 0 && objectElement.GetProperty("amountWork").GetInt32() >= 0 &&
+                                                objectElement.GetProperty("amountTruancy").GetInt32() >= 0)
                                             {
-                                                personsList.Add(person);
                                                 var worker = new Worker();
-                                                worker.sumMoney = 0;
-                                                worker.qualification = 0;
-                                                worker.amountWork = 0;
-                                                worker.amountTruancy = 0;
+                                                worker.sumMoney = objectElement.GetProperty("sumMoney").GetInt32();
+                                                worker.qualification = objectElement.GetProperty("qualification").GetInt32();
                                                 cabinetElement.addPerson(worker);
+                                                personsList.Add(worker);
                                             }
                                             break;
                                         }
                                     case "work":
                                         {
-                                            if (objectElement.GetProperty("difficulty").GetUInt32() <= 1 && objectElement.GetProperty("difficulty").GetUInt32() >= 10)
+                                            if (objectElement.GetProperty("difficulty").GetInt32() <= 1 && objectElement.GetProperty("difficulty").GetInt32() >= 10)
                                             {
                                                 var work = new Work();
-                                                work.difficulty = 1;
+                                                work.difficulty = objectElement.GetProperty("difficulty").GetInt32();
                                                 cabinetElement.setBonus(work);
                                             }
                                             break;
                                         }
                                     case "truancy":
                                         {
-                                            var truancy = new Truancy();
-                                            truancy.skipMove = 1;
-                                            cabinetElement.setBonus(truancy);
+                                            cabinetElement.setBonus(new Truancy());
                                             break;
                                         }
                                 }
@@ -148,10 +144,10 @@ namespace office
 
         }
 
-        private bool nextStep (Person person)
+        private void nextStep ()
         {
         
-            return true;
+            return;
         }
     }
 }
