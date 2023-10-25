@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
@@ -9,7 +10,9 @@ namespace office
     {
 
         Office office;
-        Cell cell;
+        List<Person> personsList = new List<Person>();
+        Person person;
+
         public Simulation()
         {
         }
@@ -45,14 +48,14 @@ namespace office
                 }
                 int propetyX = cellElement.GetProperty("x").GetInt32();
                 int propetyY = cellElement.GetProperty("y").GetInt32();
+               
                 switch (cellElement.GetProperty("type").ToString())
                 {
 
                     case "wall":
                         {
-                            {
-                                office.SetCell(propetyX, propetyY, new Wall());
-                            }
+                            
+                            office.SetCell(propetyX, propetyY, new Wall());
                             break;
 
                         }
@@ -73,12 +76,11 @@ namespace office
                                     case "salary":
                                         {
                                             if (objectElement.GetProperty("value").GetUInt32() > 0)
-                                            {
+                                            { 
+                                                var salary = new Salary();
+                                                salary.value = 1000;
 
-
-                                                cabinetElement.setBonus(new Salary());
-
-
+                                                cabinetElement.setBonus(salary);
                                             }
                                             break;
                                         }
@@ -86,45 +88,47 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("money").GetUInt32() >= 0)
                                             {
-                                                cabinetElement.addPerson(new Manager());
+                                                personsList.Add(person);
+                                                var manager  = new Manager();
+                                                manager.sumMoney = 3500;
+                                                cabinetElement.addPerson(manager);
                                             }
 
                                             break;
                                         }
                                     case "worker":
                                         {
-                                            if (objectElement.GetProperty("type").ToString() == "worker")
+                                            if (objectElement.GetProperty("qualification").GetUInt32() >= 0 && objectElement.GetProperty("amountWork").GetUInt32() >= 0 &&
+                                                objectElement.GetProperty("amountTruancy").GetUInt32() >= 0)
                                             {
-                                                cabinetElement.addPerson(new Worker());
+                                                personsList.Add(person);
+                                                var worker = new Worker();
+                                                worker.sumMoney = 0;
+                                                worker.qualification = 0;
+                                                worker.amountWork = 0;
+                                                worker.amountTruancy = 0;
+                                                cabinetElement.addPerson(worker);
                                             }
-
                                             break;
                                         }
                                     case "work":
                                         {
-                                            if (objectElement.GetProperty("type").ToString() == "work")
+                                            if (objectElement.GetProperty("difficulty").GetUInt32() <= 1 && objectElement.GetProperty("difficulty").GetUInt32() >= 10)
                                             {
-                                                cabinetElement.setBonus(new Work());
+                                                var work = new Work();
+                                                work.difficulty = 1;
+                                                cabinetElement.setBonus(work);
                                             }
-
                                             break;
                                         }
                                     case "truancy":
                                         {
-                                            if (objectElement.GetProperty("type").ToString() == "truancy")
-                                            {
-                                                cabinetElement.setBonus(new Truancy());
-                                            }
-
+                                            var truancy = new Truancy();
+                                            truancy.skipMove = 1;
+                                            cabinetElement.setBonus(truancy);
                                             break;
                                         }
                                 }
-                            }
-                            if (checkXY(cellElement))
-                            {
-
-                                var cabinet = new Cabinet();
-
                             }
                             break;
                         }
@@ -142,6 +146,12 @@ namespace office
             }
             return false;
 
+        }
+
+        private bool nextStep (Person person)
+        {
+        
+            return true;
         }
     }
 }

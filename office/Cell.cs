@@ -7,7 +7,6 @@ using System.Windows.Media.Media3D;
 public class Cell
 {
     Bonus bonusVariable = null;
-    Person[] personArray = null;
 
     List<Person> personList = new List<Person>();
 

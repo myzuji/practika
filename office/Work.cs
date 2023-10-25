@@ -2,7 +2,8 @@
 
 public class Work : Bonus
 {
-	public Work()
+    public int difficulty = 0;
+    public Work()
 	{
 	}
 }
