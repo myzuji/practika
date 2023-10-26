@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using System.Windows.Media.Media3D;
 
 namespace office
 {
@@ -12,7 +13,7 @@ namespace office
         Office office;
         List<Person> personsList = new List<Person>();
         int index = 0;
-        
+
 
         public Simulation()
         {
@@ -49,12 +50,12 @@ namespace office
                 }
                 int propetyX = cellElement.GetProperty("x").GetInt32();
                 int propetyY = cellElement.GetProperty("y").GetInt32();
-               
+
                 switch (cellElement.GetProperty("type").ToString())
                 {
 
                     case "wall":
-                        {     
+                        {
                             office.SetCell(propetyX, propetyY, new Wall());
                             break;
 
@@ -76,7 +77,7 @@ namespace office
                                     case "salary":
                                         {
                                             if (objectElement.GetProperty("value").GetInt32() > 0)
-                                            { 
+                                            {
                                                 var salary = new Salary();
                                                 salary.value = objectElement.GetProperty("value").GetInt32();
 
@@ -88,9 +89,10 @@ namespace office
                                         {
                                             if (objectElement.GetProperty("money").GetInt32() >= 0)
                                             {
-                                                var manager  = new Manager();
+                                                var manager = new Manager();
                                                 manager.sumMoney = objectElement.GetProperty("money").GetInt32();
-                                                cabinetElement.addPerson(manager);
+                                                //cabinetElement.addPerson(manager);
+                                                Person.movementCells(manager);
                                                 personsList.Add(manager);
                                             }
 
@@ -103,7 +105,8 @@ namespace office
                                                 var worker = new Worker();
                                                 worker.sumMoney = objectElement.GetProperty("sumMoney").GetInt32();
                                                 worker.qualification = objectElement.GetProperty("qualification").GetInt32();
-                                                cabinetElement.addPerson(worker);
+                                                //cabinetElement.addPerson(worker);
+                                                Person.movementCells(worker);
                                                 personsList.Add(worker);
                                             }
                                             break;
@@ -142,33 +145,36 @@ namespace office
             return false;
 
         }
-      
-        private void nextStep ()
+        
+        private void nextStep()
         {
-       
+
             Person person = personsList[index];
-            index ++;
-            
-            if (office != null && ) { }
+            index++;
+
+            if (index >= personsList.Count)
             {
-                for (int i = 0; i < index; i++)
-                {
-                    var lastStep = personsList.Count - 1;
-                    for (int k = personsList.Count - 1; k > 0; k--)
-                    {
-                        personsList[index] = personsList[index - 1];
-                    }
-                    personsList[index] = lastStep;
-
-
-                }
-               
-
-
+                index = 0;
             }
-            return;
+           
+            if (office.officeArray[x, y] is Wall)
+            {
+                ;
+            }
+            
+            if (office.officeArray[x,y] is Cabinet)
+            {
+                Person.movementCells(person);
+            }
         }
+
+
+
     }
+
+
 }
+   
+
 
 

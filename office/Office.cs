@@ -2,7 +2,7 @@
 
 public class Office
 {
-    Cell[,] officeArray = null;
+    public Cell[,] officeArray = null;
     public Office(int width, int height)
     {
 
