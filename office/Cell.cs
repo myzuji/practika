@@ -22,7 +22,7 @@ public class Cell
     public void addPerson(Person person)
     {
         personList.Add(person);
-
+       
     }
 
     public void removePerson(Person person)

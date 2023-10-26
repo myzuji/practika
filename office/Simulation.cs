@@ -11,6 +11,7 @@ namespace office
 
         Office office;
         List<Person> personsList = new List<Person>();
+        int index = 0;
         
 
         public Simulation()
@@ -53,8 +54,7 @@ namespace office
                 {
 
                     case "wall":
-                        {
-                            
+                        {     
                             office.SetCell(propetyX, propetyY, new Wall());
                             break;
 
@@ -98,8 +98,7 @@ namespace office
                                         }
                                     case "worker":
                                         {
-                                            if (objectElement.GetProperty("qualification").GetInt32() >= 0 && objectElement.GetProperty("amountWork").GetInt32() >= 0 &&
-                                                objectElement.GetProperty("amountTruancy").GetInt32() >= 0)
+                                            if (objectElement.GetProperty("qualification").GetInt32() >= 0)
                                             {
                                                 var worker = new Worker();
                                                 worker.sumMoney = objectElement.GetProperty("sumMoney").GetInt32();
@@ -111,7 +110,7 @@ namespace office
                                         }
                                     case "work":
                                         {
-                                            if (objectElement.GetProperty("difficulty").GetInt32() <= 1 && objectElement.GetProperty("difficulty").GetInt32() >= 10)
+                                            if (objectElement.GetProperty("difficulty").GetInt32() >= 1 && objectElement.GetProperty("difficulty").GetInt32() >= 10)
                                             {
                                                 var work = new Work();
                                                 work.difficulty = objectElement.GetProperty("difficulty").GetInt32();
@@ -143,10 +142,30 @@ namespace office
             return false;
 
         }
-
+      
         private void nextStep ()
         {
-        
+       
+            Person person = personsList[index];
+            index ++;
+            
+            if (office != null && ) { }
+            {
+                for (int i = 0; i < index; i++)
+                {
+                    var lastStep = personsList.Count - 1;
+                    for (int k = personsList.Count - 1; k > 0; k--)
+                    {
+                        personsList[index] = personsList[index - 1];
+                    }
+                    personsList[index] = lastStep;
+
+
+                }
+               
+
+
+            }
             return;
         }
     }
