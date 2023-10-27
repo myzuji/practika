@@ -56,17 +56,20 @@ namespace office
 
                     case "wall":
                         {
-                            office.SetCell(propetyX, propetyY, new Wall());
+                            var wallElement = new Wall();
+                            wallElement.xCell = propetyX;
+                            wallElement.yCell = propetyY;
+                            office.SetCell(propetyX, propetyY, wallElement);
                             break;
 
                         }
                     case "cabinet":
                         {
                             var cabinetElement = new Cabinet();
-                            {
-                                office.SetCell(propetyX, propetyY, cabinetElement);
+                            cabinetElement.xCell = propetyX;
+                            cabinetElement.yCell = propetyY;
+                            office.SetCell(propetyX, propetyY, cabinetElement);
 
-                            }
 
                             var objectsElement = cellElement.GetProperty("objects");
 
@@ -90,9 +93,8 @@ namespace office
                                             if (objectElement.GetProperty("money").GetInt32() >= 0)
                                             {
                                                 var manager = new Manager();
-                                                manager.sumMoney = objectElement.GetProperty("money").GetInt32();
-                                                //cabinetElement.addPerson(manager);
-                                                manager.movementCells();
+                                                manager.sumMoney = objectElement.GetProperty("money").GetInt32();                                            
+                                                manager.movementCells(cabinetElement);
                                                 personsList.Add(manager);
                                             }
 
@@ -105,8 +107,7 @@ namespace office
                                                 var worker = new Worker();
                                                 worker.sumMoney = objectElement.GetProperty("sumMoney").GetInt32();
                                                 worker.qualification = objectElement.GetProperty("qualification").GetInt32();
-                                                //cabinetElement.addPerson(worker);
-                                                worker.movementCells();
+                                                worker.movementCells(cabinetElement);
                                                 personsList.Add(worker);
                                             }
                                             break;
@@ -148,8 +149,10 @@ namespace office
         
         public void nextStep()
         {
+            
 
             Person person = personsList[index];
+            
             index++;
 
             if (index >= personsList.Count)
@@ -157,14 +160,43 @@ namespace office
                 index = 0;
             }
            
-            if (office.officeArray[] is Wall)
+            if (office.officeArray[0, 1] is Wall)
             {
-                ;
+                if(office.officeArray[0, 1+1] is Wall)
+                {
+                    if(office.officeArray[0, 1-1] is Wall)
+                    {
+                        if(office.officeArray[0+1, 1] is Wall)
+                        {
+                            if(office.officeArray[0-1, 1] is Wall)
+                            {
+                                person.movementCells(office.officeArray[0, 1]);
+                            }
+                            else
+                            {
+                                person.movementCells(office.officeArray[0-1, 1]);
+                            }
+                        }
+                        else
+                        {
+                            person.movementCells(office.officeArray[0+1, 1]);
+                        }
+                    }
+                    else
+                    {
+                        person.movementCells(office.officeArray[0, 1 - 1]);
+                    }
+                }
+                else
+                {
+                    person.movementCells(office.officeArray[0, 1 + 1]);
+                }
             }
             
-            if (office.officeArray[x,y] is Cabinet)
+            if (office.officeArray[0,1] is Cabinet)
             {
-                Person.movementCells(person);
+             person.movementCells(office.officeArray[0, 1]);
+               
             }
         }
 
