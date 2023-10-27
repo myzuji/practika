@@ -92,7 +92,7 @@ namespace office
                                                 var manager = new Manager();
                                                 manager.sumMoney = objectElement.GetProperty("money").GetInt32();
                                                 //cabinetElement.addPerson(manager);
-                                                Person.movementCells(manager);
+                                                manager.movementCells();
                                                 personsList.Add(manager);
                                             }
 
@@ -106,7 +106,7 @@ namespace office
                                                 worker.sumMoney = objectElement.GetProperty("sumMoney").GetInt32();
                                                 worker.qualification = objectElement.GetProperty("qualification").GetInt32();
                                                 //cabinetElement.addPerson(worker);
-                                                Person.movementCells(worker);
+                                                worker.movementCells();
                                                 personsList.Add(worker);
                                             }
                                             break;
@@ -146,7 +146,7 @@ namespace office
 
         }
         
-        private void nextStep()
+        public void nextStep()
         {
 
             Person person = personsList[index];
@@ -157,7 +157,7 @@ namespace office
                 index = 0;
             }
            
-            if (office.officeArray[x, y] is Wall)
+            if (office.officeArray[] is Wall)
             {
                 ;
             }
