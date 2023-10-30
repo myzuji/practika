@@ -159,40 +159,38 @@ namespace office
             {
                 index = 0;
             }
-           
-            if (office.officeArray[0, 1] is Wall)
+
+            List<Cell> cellsList = new List<Cell>();
+
+            var x = person.cells.xCell;
+            var y = person.cells.yCell;
+
+            for(int i = y-1; i <= y+1; i++)
             {
-                if(office.officeArray[0, 1+1] is Wall)
+                if (office.officeArray[x,i] is Cabinet)
                 {
-                    if(office.officeArray[0, 1-1] is Wall)
-                    {
-                        if(office.officeArray[0+1, 1] is Wall)
-                        {
-                            if(office.officeArray[0-1, 1] is Wall)
-                            {
-                                person.movementCells(office.officeArray[0, 1]);
-                            }
-                            else
-                            {
-                                person.movementCells(office.officeArray[0-1, 1]);
-                            }
-                        }
-                        else
-                        {
-                            person.movementCells(office.officeArray[0+1, 1]);
-                        }
-                    }
-                    else
-                    {
-                        person.movementCells(office.officeArray[0, 1 - 1]);
-                    }
-                }
-                else
-                {
-                    person.movementCells(office.officeArray[0, 1 + 1]);
+                    cellsList.Add(person.cells);
                 }
             }
-            
+
+            for (int i = x - 1; i <= x + 1; i++)
+            {
+                if (office.officeArray[i, y] is Cabinet)
+                {
+                    cellsList.Add(person.cells);
+                }
+            }
+            int[,] cellsArray = null;
+            Random rand = new Random();
+            for (int i = 0; i < x; i++)
+            {
+                for (int k = 0; k < y; k++)
+                {
+                    cellsArray[i, k] = rand.Next(0, cellsArray.Length);
+
+                }
+            }
+
             if (office.officeArray[0,1] is Cabinet)
             {
              person.movementCells(office.officeArray[0, 1]);
