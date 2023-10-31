@@ -11,7 +11,7 @@ public class Person
     {
     }
 
-    public void movementCells(Cell nextCell)
+    virtual public void movementCells(Cell nextCell)
     {
         nextCell.addPerson(this);
         cells.removePerson(this);

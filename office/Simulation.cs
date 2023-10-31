@@ -57,8 +57,6 @@ namespace office
                     case "wall":
                         {
                             var wallElement = new Wall();
-                            wallElement.xCell = propetyX;
-                            wallElement.yCell = propetyY;
                             office.SetCell(propetyX, propetyY, wallElement);
                             break;
 
@@ -66,8 +64,6 @@ namespace office
                     case "cabinet":
                         {
                             var cabinetElement = new Cabinet();
-                            cabinetElement.xCell = propetyX;
-                            cabinetElement.yCell = propetyY;
                             office.SetCell(propetyX, propetyY, cabinetElement);
 
 
@@ -93,7 +89,7 @@ namespace office
                                             if (objectElement.GetProperty("money").GetInt32() >= 0)
                                             {
                                                 var manager = new Manager();
-                                                manager.sumMoney = objectElement.GetProperty("money").GetInt32();                                            
+                                                manager.sumMoney = objectElement.GetProperty("money").GetInt32();
                                                 manager.movementCells(cabinetElement);
                                                 personsList.Add(manager);
                                             }
@@ -146,13 +142,13 @@ namespace office
             return false;
 
         }
-        
+
         public void nextStep()
         {
-            
+
 
             Person person = personsList[index];
-            
+
             index++;
 
             if (index >= personsList.Count)
@@ -165,45 +161,43 @@ namespace office
             var x = person.cells.xCell;
             var y = person.cells.yCell;
 
-            for(int i = y-1; i <= y+1; i++)
+            for (int i = y - 1; i <= y + 1; i++)
             {
-                if (office.officeArray[x,i] is Cabinet)
+                if (i != y && office.officeArray[x, i] is Cabinet)
                 {
-                    cellsList.Add(person.cells);
+                    cellsList.Add(office.officeArray[i, y]);
                 }
             }
 
             for (int i = x - 1; i <= x + 1; i++)
             {
-                if (office.officeArray[i, y] is Cabinet)
+                if (i != x && office.officeArray[i, y] is Cabinet)
                 {
-                    cellsList.Add(person.cells);
+                    cellsList.Add(office.officeArray[i, y]);
                 }
             }
-            int[,] cellsArray = null;
+
+            if(cellsList.Count == 0)
+            {
+                cellsList.Add(person.cells);
+            }
+
             Random rand = new Random();
-            for (int i = 0; i < x; i++)
-            {
-                for (int k = 0; k < y; k++)
-                {
-                    cellsArray[i, k] = rand.Next(0, cellsArray.Length);
+            var cellIndex = rand.Next(0, cellsList.Count);
+            person.movementCells(cellsList[cellIndex]);
 
-                }
-            }
 
-            if (office.officeArray[0,1] is Cabinet)
-            {
-             person.movementCells(office.officeArray[0, 1]);
-               
-            }
         }
-
 
 
     }
 
 
+
 }
+
+
+
    
 
 

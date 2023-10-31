@@ -19,8 +19,8 @@ public class Office
 
     public void SetCell(int x, int y, Cell cell) 
     {
-       x = cell.xCell;  
-       y = cell.yCell;
+        cell.xCell = x;
+        cell.yCell = y;
         officeArray[x, y] = cell;
     }
 
