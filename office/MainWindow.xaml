@@ -6,17 +6,82 @@
         xmlns:local="clr-namespace:office"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <DataTemplate x:Key="WallTemplate">
+            <Rectangle Fill="Gray" Height="60" Width="60" Margin="1"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CabinetTemplate">
+            <Border Background="White" Height="60" Width="60" Margin="1">
+                <Grid>
+                    <Image x:Name="BonusImage" Width="60" Height="60"/>
+
+                    <ItemsControl ItemsSource="{Binding personList}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image x:Name="PersonImage" Width="30" Height="30"/>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Type}" Value="worker">
+                                        <Setter TargetName="PersonImage" Property="Source" Value="pack://application:,,,/images/worker.png"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="manager">
+                                        <Setter TargetName="PersonImage" Property="Source" Value="pack://application:,,,/images/manager.png"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding bonusVariable.Type}" Value="truancy">
+                    <Setter TargetName="BonusImage" Property="Source" Value="pack://application:,,,/images/truancy.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding bonusVariable.Type}" Value="salary">
+                    <Setter TargetName="BonusImage" Property="Source" Value="pack://application:,,,/images/salary.png"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding bonusVariable.Type}" Value="work">
+                    <Setter TargetName="BonusImage" Property="Source" Value="pack://application:,,,/images/work.png"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate x:Key="OfficeDataTemplate">
+            <ItemsControl ItemsSource="{Binding}" ItemTemplateSelector="{DynamicResource TemplateSelector}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DataTemplate>
+
+        <local:TemplateSelector x:Key="TemplateSelector"/>
+    </Window.Resources>
+
     <Grid>
-        <RichTextBox x:Name="OfficeModel"  Margin="33,259,217,44">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text="RichTextBox"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="440,0,0,335" VerticalAlignment="Bottom" Click="Button_Click" Height="65" Width="118"/>
-        <TextBlock x:Name="OfficeModel1" HorizontalAlignment="Left" Margin="33,160,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="57" Width="432"/>
+        <StackPanel Orientation="Horizontal" Margin="3" Grid.ColumnSpan="2">
+            <Button x:Name="NextStepButton">
+                <TextBlock Text="Следующий шаг"/>
+            </Button>
+        </StackPanel>
 
+        <ItemsControl ItemsSource="{Binding office.officeArray}" ItemTemplate="{DynamicResource OfficeDataTemplate}" Grid.Row="1" Grid.Column="0" Background="Silver"/>
     </Grid>
+
 </Window>

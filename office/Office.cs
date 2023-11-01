@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class Office
 {
-    public Cell[,] officeArray = null;
+    public List<List<Cell>> officeArray { get; set; }
     public Office(int width, int height)
     {
 
-        officeArray = new Cell[width, height];
+        officeArray = new List<List<Cell>>();
         for (int i = 0; i < width; i++)
         {
+            officeArray.Add(new List<Cell>());
             for (int k = 0; k < height; k++)
             {
-                officeArray[i, k] = new Wall();
+                officeArray[i].Add(new Wall());
 
             }
         }
@@ -21,7 +23,7 @@ public class Office
     {
         cell.xCell = x;
         cell.yCell = y;
-        officeArray[x, y] = cell;
+        officeArray[y][x] = cell;
     }
 
     

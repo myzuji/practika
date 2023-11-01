@@ -6,38 +6,50 @@ public class Worker : Person
     public int qualification = 0;
     public int amountWork = 0;
     public int amountTruancy = 0;
- 
+
 
     public Worker()
     {
+        Type = "worker";
     }
-    override public void movementCells(Cell nextCell)
+    override public void movementCells(Cell nextCell, bool isLoading = true)
     {
+
         base.movementCells(nextCell);
+
+        if (isLoading)
+            return;
+
+        bool skipStep = true;
+        if (skipStep)
+        {
+            skipStep = false;
+            return;
+        }
         if (nextCell.bonusVariable != null)
         {
 
             if (nextCell.bonusVariable is Salary)
             {
-                var salary = new Salary();
+                var salary = nextCell.bonusVariable as Salary;
                 sumMoney += salary.value;
             }
-            if (nextCell.bonusVariable is Truancy)
+            else if (nextCell.bonusVariable is Truancy)
             {
-                //var truancy = new Truancy();
-                movementCells(nextCell);
                 amountTruancy++;
+                skipStep= true;
             }
-            if (nextCell.bonusVariable is Work)
+            else if (nextCell.bonusVariable is Work)
             {
                 var work = new Work();
                 if (work.difficulty <= qualification)
                 {
-                    qualification += work.difficulty;
+                    qualification ++;
                     amountWork++;
                 }
-
+                
             }
+            nextCell.bonusVariable = null;
 
         }
     }

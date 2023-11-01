@@ -1,23 +1,32 @@
 ﻿using office;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Documents;
 using System.Windows.Media.Media3D;
 
-public class Cell
+public class Cell : INotifyPropertyChanged
 {
-   public Bonus bonusVariable = null;
+   public Bonus bonusVariable { get; set; }
     public int xCell = 0;
     public int yCell = 0;
-    public List<Person> personList = new List<Person>();
+    public ObservableCollection<Person> personList { get; set; }
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected void OnPropertyChanged(string name)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
 
     public Cell()
     {
+        personList = new ObservableCollection<Person>();
     }
     public void setBonus(Bonus bonus)
     {
         bonusVariable = bonus;
-
+        OnPropertyChanged("bonusVariable");
     }
 
     public void addPerson(Person person)

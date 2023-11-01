@@ -5,20 +5,27 @@ using System.Linq;
 public class Manager : Person
 {
     public int sumMoney = 0;
-    List<Person> personList = new List<Person>();
+   
     public Manager()
     {
+        Type = "manager";
     }
-    override public void movementCells(Cell nextCell)
+    override public void movementCells(Cell nextCell, bool isLoading = true)
     {
         base.movementCells(nextCell);
+        if (isLoading)
+        {
+            return;
+        }
+
         if (nextCell.bonusVariable != null)
         {
 
             if (nextCell.bonusVariable is Salary)
             {
-                var salary = new Salary();
+                var salary = nextCell.bonusVariable as Salary;
                 sumMoney += salary.value;
+                nextCell.setBonus(null);
             }
             var worker = new Worker();
             if (nextCell.personList.Contains(worker))
@@ -35,6 +42,7 @@ public class Manager : Person
                     worker.sumMoney += prize;
                 }
             }
+            
         }
 
     }

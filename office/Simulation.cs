@@ -10,13 +10,13 @@ namespace office
     public class Simulation
     {
 
-        Office office;
-        List<Person> personsList = new List<Person>();
+        public Office office { get; set; }
+        List<Person> personsList { get; set; }
         int index = 0;
-
 
         public Simulation()
         {
+            personsList = new List<Person>();
         }
 
         public bool loadFromJson(string filePath)
@@ -48,6 +48,8 @@ namespace office
                     continue;
 
                 }
+
+                JsonElement temp;
                 int propetyX = cellElement.GetProperty("x").GetInt32();
                 int propetyY = cellElement.GetProperty("y").GetInt32();
 
@@ -66,6 +68,8 @@ namespace office
                             var cabinetElement = new Cabinet();
                             office.SetCell(propetyX, propetyY, cabinetElement);
 
+                            if (!cellElement.TryGetProperty("objects", out temp))
+                                continue;
 
                             var objectsElement = cellElement.GetProperty("objects");
 
@@ -98,10 +102,11 @@ namespace office
                                         }
                                     case "worker":
                                         {
-                                            if (objectElement.GetProperty("qualification").GetInt32() >= 0)
+                                            if (objectElement.TryGetProperty("qualification", out temp) && objectElement.GetProperty("qualification").GetInt32() >= 0)
                                             {
                                                 var worker = new Worker();
-                                                worker.sumMoney = objectElement.GetProperty("sumMoney").GetInt32();
+                                                if (objectElement.TryGetProperty("money", out temp) && objectElement.GetProperty("money").GetInt32() >= 0)
+                                                    worker.sumMoney = objectElement.GetProperty("money").GetInt32();
                                                 worker.qualification = objectElement.GetProperty("qualification").GetInt32();
                                                 worker.movementCells(cabinetElement);
                                                 personsList.Add(worker);
@@ -110,7 +115,8 @@ namespace office
                                         }
                                     case "work":
                                         {
-                                            if (objectElement.GetProperty("difficulty").GetInt32() >= 1 && objectElement.GetProperty("difficulty").GetInt32() >= 10)
+                                            if (objectElement.TryGetProperty("difficulty", out temp) && objectElement.GetProperty("difficulty").GetInt32() >= 1 &&
+                                                objectElement.GetProperty("difficulty").GetInt32() <= 10)
                                             {
                                                 var work = new Work();
                                                 work.difficulty = objectElement.GetProperty("difficulty").GetInt32();
@@ -163,42 +169,48 @@ namespace office
 
             for (int i = y - 1; i <= y + 1; i++)
             {
-                if (i != y && office.officeArray[x, i] is Cabinet)
+                if (i < 0 || i >= office.officeArray.Count)
+                    continue;
+
+                if (i != y && office.officeArray[i][x] is Cabinet)
                 {
-                    cellsList.Add(office.officeArray[i, y]);
+                    cellsList.Add(office.officeArray[i][x]);
                 }
             }
 
             for (int i = x - 1; i <= x + 1; i++)
             {
-                if (i != x && office.officeArray[i, y] is Cabinet)
+                if (i < 0 || i >= office.officeArray[y].Count)
+                    continue;
+
+                if (i != x && office.officeArray[y][i] is Cabinet)
                 {
-                    cellsList.Add(office.officeArray[i, y]);
+                    cellsList.Add(office.officeArray[y][i]);
                 }
             }
 
-            if(cellsList.Count == 0)
+            if (cellsList.Count == 0)
             {
                 cellsList.Add(person.cells);
             }
 
             Random rand = new Random();
             var cellIndex = rand.Next(0, cellsList.Count);
-            person.movementCells(cellsList[cellIndex]);
+            person.movementCells(cellsList[cellIndex], false);
 
 
         }
 
-
     }
-
-
 
 }
 
 
 
-   
+
+
+
+
 
 
 

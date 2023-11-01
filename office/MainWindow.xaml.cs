@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -20,23 +19,20 @@ namespace office
 
     public partial class MainWindow : Window
     {
+        Simulation simulation;
         public MainWindow()
         {
             InitializeComponent();
+            simulation = new Simulation();
+            simulation.loadFromJson("test.json");
 
+            DataContext = simulation;
+            NextStepButton.Click += NextStepButton_Click;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void NextStepButton_Click(object sender, RoutedEventArgs e)
         {
-            Simulation simulation = new Simulation();
-             simulation.loadFromJson("test.json");
-            {
-
-                OfficeModel1.Text += string.Join(",", simulation);
-                //simulation = Convert.ToString(OfficeModel.Text);
-
-
-            }
+            simulation.nextStep();
         }
     }
 }

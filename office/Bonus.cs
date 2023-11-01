@@ -6,5 +6,6 @@ using System.Threading.Tasks;
 
 public class Bonus
 {
+    public string Type { get; set; }
 }
 
