@@ -2,36 +2,45 @@
 
 public class Worker : Person
 {
-	public int sumMoney = 0;
-	public int qualification = 0;
-	public int amountWork = 0;
-	public int amountTruancy = 0;
-    public Bonus bonus;
+    public int sumMoney = 0;
+    public int qualification = 0;
+    public int amountWork = 0;
+    public int amountTruancy = 0;
+ 
 
     public Worker()
-	{
-	}
-	override public void movementCells(Cell nextCell)
-	{ 
-		base.movementCells(nextCell);
-	}
+    {
+    }
+    override public void movementCells(Cell nextCell)
+    {
+        base.movementCells(nextCell);
+        if (nextCell.bonusVariable != null)
+        {
 
-	public void PerformanceWork(Cell cellBonus)
-	{
-        cellBonus.setBonus(bonus);
-		qualification++;
-		amountWork++;
-	}
+            if (nextCell.bonusVariable is Salary)
+            {
+                var salary = new Salary();
+                sumMoney += salary.value;
+            }
+            if (nextCell.bonusVariable is Truancy)
+            {
+                //var truancy = new Truancy();
+                movementCells(nextCell);
+                amountTruancy++;
+            }
+            if (nextCell.bonusVariable is Work)
+            {
+                var work = new Work();
+                if (work.difficulty <= qualification)
+                {
+                    qualification += work.difficulty;
+                    amountWork++;
+                }
 
-    public void Truancy(Cell cellBonus)
-	{
-        cellBonus.setBonus(bonus);
-        amountTruancy++;
-	}
+            }
 
-    public void GettingASalary(Cell cellBonus)
-	{
-        cellBonus.setBonus(bonus);
-        sumMoney++;
-	}
+        }
+    }
+
+
 }

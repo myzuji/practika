@@ -6,10 +6,10 @@ using System.Windows.Media.Media3D;
 
 public class Cell
 {
-    Bonus bonusVariable = null;
+   public Bonus bonusVariable = null;
     public int xCell = 0;
     public int yCell = 0;
-    List<Person> personList = new List<Person>();
+    public List<Person> personList = new List<Person>();
 
     public Cell()
     {
